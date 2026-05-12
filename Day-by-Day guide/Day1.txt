@@ -1,0 +1,304 @@
+STEP 1 — Create Project
+mkdir enterprise-rag
+cd enterprise-rag
+STEP 2 — Initialize Git
+git init
+
+Create .gitignore
+
+node_modules
+.env
+venv
+__pycache__
+.next
+STEP 3 — Create Structure
+mkdir frontend backend
+STEP 4 — Create Next.js App
+cd frontend
+
+Run:
+
+npx create-next-app@latest .
+
+Choose:
+
+TypeScript → Yes
+ESLint → Yes
+Tailwind → Yes
+src/ directory → Yes
+App Router → Yes
+Turbopack → Yes
+STEP 5 — Run Frontend
+npm run dev
+
+Visit:
+
+http://localhost:3000
+STEP 6 — Install Frontend Libraries
+
+Stop server.
+
+Install:
+
+npm install axios @tanstack/react-query react-hook-form zod
+WHY THESE?
+axios
+
+API requests.
+
+React Query
+
+Server-state management.
+
+VERY valuable skill for interviews.
+
+React Hook Form
+
+Professional forms.
+
+Zod
+
+Validation.
+
+STEP 7 — Clean Default Next.js
+
+Delete:
+
+src/app/page.tsx
+
+Create new:
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-black text-white p-10">
+      <h1 className="text-4xl font-bold">
+        Enterprise RAG Platform
+      </h1>
+    </main>
+  )
+}
+WHY?
+
+You immediately:
+
+establish app identity
+verify Tailwind works
+remove tutorial boilerplate
+STEP 8 — Create Frontend Structure
+
+Inside src/
+
+Create:
+
+components/
+lib/
+hooks/
+services/
+types/
+
+Final:
+
+src/
+ ├── app/
+ ├── components/
+ ├── hooks/
+ ├── lib/
+ ├── services/
+ ├── types/
+WHY THIS STRUCTURE?
+components/
+
+Reusable UI.
+
+hooks/
+
+Custom React hooks.
+
+lib/
+
+Utilities/helpers.
+
+services/
+
+API logic.
+
+types/
+
+TypeScript types.
+
+This is CLEAN frontend architecture.
+
+STEP 9 — Setup FastAPI Backend
+
+Go backend:
+
+cd ../backend
+
+Create virtual env.
+
+Windows
+python -m venv venv
+
+Activate:
+
+venv\Scripts\activate
+STEP 10 — Install Backend Dependencies
+pip install fastapi uvicorn python-dotenv
+STEP 11 — Create Backend Structure
+
+Create:
+
+app/
+
+Inside:
+
+api/
+core/
+services/
+models/
+schemas/
+rag/
+
+Final:
+
+backend/
+ ├── app/
+ │    ├── api/
+ │    ├── core/
+ │    ├── services/
+ │    ├── models/
+ │    ├── schemas/
+ │    ├── rag/
+WHY ADD rag/ NOW?
+
+Because AI logic should be isolated.
+
+This becomes:
+
+ingestion
+embeddings
+retrieval
+prompts
+Pinecone logic
+
+Very important architectural separation.
+
+STEP 12 — Create FastAPI App
+
+Create:
+
+app/main.py
+
+Add:
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def root():
+    return {
+        "message": "Enterprise RAG API Running"
+    }
+STEP 13 — Run Backend
+uvicorn app.main:app --reload
+
+Open:
+
+http://127.0.0.1:8000
+STEP 14 — Install Backend Libraries
+
+Stop server.
+
+Install:
+
+pip install sqlalchemy psycopg2-binary alembic
+
+AI libraries:
+
+pip install sentence-transformers pinecone
+WHY THESE?
+SQLAlchemy
+
+ORM.
+
+Alembic
+
+DB migrations.
+
+sentence-transformers
+
+Free embeddings.
+
+pinecone
+
+Vector DB client.
+
+STEP 15 — Create Docker Compose
+
+Back to root.
+
+Create:
+
+docker-compose.yml
+
+Add:
+
+services:
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: enterprise_rag
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+STEP 16 — Run Docker
+docker compose up -d
+STEP 17 — Verify Containers
+docker ps
+
+You should see:
+
+postgres
+redis
+STEP 18 — Create Backend ENV
+
+Create:
+
+backend/.env
+
+Add:
+
+DATABASE_URL=postgresql://postgres:password@localhost:5432/enterprise_rag
+
+PINECONE_API_KEY=your_key
+
+PINECONE_INDEX=enterprise-rag
+
+GROQ_API_KEY=your_key
+STEP 19 — Create Pinecone Index
+
+Go:
+Pinecone Console
+
+Create:
+
+Index Name → enterprise-rag
+Dimensions → 384
+Metric → cosine
+WHY 384?
+
+Because:
+
+BAAI/bge-small-en-v1.5
+
+outputs:
+
+384-dimensional embeddings
