@@ -11,7 +11,7 @@ Production-grade AI knowledge assistant with:
 
 # Note This is a work in progress. The code is not production-ready and may contain bugs. Use at your own risk.
 
-# Don't forget to set up your environment variables in a .env file (Update the values accordingly):
+# Don't forget to set up your environment variables in a .env file in the backend directory (Update the values accordingly):
 
 DATABASE_URL=postgresql://postgres:password@localhost:5432/enterprise_rag
 
